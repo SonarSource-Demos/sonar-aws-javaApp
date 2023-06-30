@@ -29,4 +29,10 @@ public class AppControllerTest {
 				.andExpect(content().string(containsString("Hello, World")));
 	}
 
+	@Test
+	public void shouldReturnAddress() throws Exception {
+		this.mockMvc.perform(get("/person/address").param("name","foo")).andDo(print())
+				.andExpect(status().isOk()).andExpect(content().string(containsString("Nice")));
+	}
+
 }
