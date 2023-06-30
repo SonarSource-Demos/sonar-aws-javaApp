@@ -1,0 +1,43 @@
+# Highlights
+# parameters set correctly when triggered from webhooks (github)
+# secrets not retrieved from AWS (paid feature)
+# targets the main branch and PRs (with failed pipelines for other branches because of codebuild source filters limitations)
+# errors for scanner downloads not managed
+# no cache for analyzers (or the scanner)
+version: 0.2
+env:
+  shell: bash
+#  s
+phases:
+#  install:
+#    runtime-versions:
+#      java: corretto11
+  pre_build:
+    commands:
+ #     - echo "CODEBUILD_SOURCE_VERSION -> ${CODEBUILD_SOURCE_VERSION}"
+#      - echo "CODEBUILD_WEBHOOK_TRIGGER -> ${CODEBUILD_WEBHOOK_TRIGGER}"
+#      - echo "CODEBUILD_WEBHOOK_BASE_REF -> ${CODEBUILD_WEBHOOK_BASE_REF}"
+#      - echo "CODEBUILD_WEBHOOK_HEAD_REF -> ${CODEBUILD_WEBHOOK_HEAD_REF}"
+#      - |-
+#        if [[ ${CODEBUILD_WEBHOOK_TRIGGER} == 'pr/'* ]] ; then
+#           export SQ_ANALYSIS_PARAMS="-Dsonar.pullrequest.key=${CODEBUILD_WEBHOOK_TRIGGER##*/} \
+#                                      -Dsonar.pullrequest.branch=${CODEBUILD_WEBHOOK_HEAD_REF##refs/heads/} \
+#                                      -Dsonar.pullrequest.base=${CODEBUILD_WEBHOOK_BASE_REF##refs/heads/}"
+#        else
+#          if [[ ${CODEBUILD_WEBHOOK_TRIGGER##branch/} != 'main' ]] ; then
+#            echo "exiting build for branch {CODEBUILD_WEBHOOK_TRIGGER}"
+#            exit 1
+#          else
+#             export SQ_ANALYSIS_PARAMS="-Dsonar.branch.name=${CODEBUILD_WEBHOOK_TRIGGER##branch/}"
+#          fi
+#        fi
+      # get the scanner
+#      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472.zip
+#      - unzip ./sonar-scanner-cli-4.6.2.2472.zip
+#      - export PATH=$PATH:$PWD/sonar-scanner-4.6.2.2472/bin/
+      - printenv
+  build:
+    commands:
+      - echo "SQ_ANALYSIS_PARAMS -> ${SQ_ANALYSIS_PARAMS}"
+#      - sonar-scanner -Dsonar.login=$SONAR_LOGIN -Dsonar.host.url=$SONAR_HOST_URL -X $SQ_ANALYSIS_PARAMS
+      - mvn clean verify sonar:sonar -X $SQ_ANALYSIS_PARAMS
