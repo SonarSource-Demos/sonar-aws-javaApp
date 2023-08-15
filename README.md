@@ -8,6 +8,13 @@ The project runs a servlet serving two endpoints:
 
 Credits to @jeff-zapotoczny-sonarsource for the initial implementation
 
+> <picture>
+>   <source media="(prefers-color-scheme: light)" srcset="https://github.com/Mqxx/GitHub-Markdown/blob/main/blockquotes/badge/light-theme/warning.svg">
+>   <img alt="Warning" src="https://github.com/Mqxx/GitHub-Markdown/blob/main/blockquotes/badge/dark-theme/warning.svg">
+> </picture><br>
+>
+> Warning
+
 ### Reference Documentation
 For further reference, please consider the following sections:
 
