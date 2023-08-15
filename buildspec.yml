@@ -55,12 +55,7 @@ phases:
         fi
       # Run compile, execute sonar scanner and create application package  
       - mvn clean compile sonar:sonar package -Dmaven.test.skip=true -Dcheckstyle.skip -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=120 -Dsonar.verbose=true $SQ_ANALYSIS_PARAMS
-    
-      # Success Buid Docker image
-      - echo Building the Docker image...
-      - echo Build started on `date`
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      
   post_build:
     commands:
        - |
