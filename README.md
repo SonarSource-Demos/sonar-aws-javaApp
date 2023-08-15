@@ -6,7 +6,6 @@ The project runs a servlet serving two endpoints:
 * the initial DB setup has a PEOPLE table populated with one entry for the name 'foo'
 * as default, the application listens on port 8080 and also maps the H2 DB console: http://localhost:8080/h2-console
 
-[!WARNING]
 Credits to @jeff-zapotoczny-sonarsource for the initial implementation
 
 ### Reference Documentation
