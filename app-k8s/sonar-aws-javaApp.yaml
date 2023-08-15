@@ -1,27 +1,27 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: sonar-aws-javaApp-ns 
+  name: sonar-aws-javaapp-ns 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonar-aws-javaApp-deploy 
-  namespace: sonar-aws-javaApp-ns 
+  name: sonar-aws-javaapp-deploy 
+  namespace: sonar-aws-javaapp-ns 
   labels:
-    app: sonar-aws-javaApp 
+    app: sonar-aws-javaapp 
 spec:
  replicas: 1
  selector:
     matchLabels:
-      app: sonar-aws-javaApp 
+      app: sonar-aws-javaapp 
  template:
     metadata:
       labels:
-        app: sonar-aws-javaApp 
+        app: sonar-aws-javaapp 
     spec:
       containers:
-        - name: sonar-aws-javaApp 
+        - name: sonar-aws-javaapp 
           image: 103078382956.dkr.ecr.eu-central-1.amazonaws.com/app-container-repo:Latest
           imagePullPolicy: Always
           ports:
@@ -30,10 +30,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonar-aws-javaApp_svc
-  namespace: sonar-aws-javaApp-ns 
+  name: sonar-aws-javaapp-svc
+  namespace: sonar-aws-javaapp-ns 
   labels:
-    app: sonar-aws-javaApp 
+    app: sonar-aws-javaapp 
 spec:
   type: LoadBalancer 
   selector:
