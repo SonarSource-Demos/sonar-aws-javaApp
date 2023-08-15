@@ -6,6 +6,13 @@ env:
   variables:
     SourceBranch: ""
     DestinationBranch: ""
+    IMAGE_REPO_NAME: "app-container-repo"
+    IMAGE_TAG: "Latest"
+    EKS_CLUSTER_NAME: "sonar-cluster"
+    EKS_NS_APP: "sonar-aws-javaapp-ns"
+    EKS_CODEBUILD_APP_SVC: "sonar-aws-javaapp-svc"
+    EKS_DEPLOY_APP: "sonar-aws-javaapp-deploy"
+    SONAR_PROJECT: "java-spring-example"
     PRKey: ""
   shell: bash    
 phases:
@@ -55,7 +62,7 @@ phases:
         fi
       # Run compile, execute sonar scanner and create application package  
       - mvn clean compile sonar:sonar package -Dmaven.test.skip=true -Dcheckstyle.skip -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=120 -Dsonar.verbose=true $SQ_ANALYSIS_PARAMS
-      
+    
   post_build:
     commands:
        - |
