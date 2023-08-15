@@ -86,7 +86,7 @@ phases:
             # Test if application is deployed
             podStatus=$(kubectl get pods -n $EKS_NS_APP -o=jsonpath='{range .items[*]}{.status.conditions[?(@.type=="ContainersReady")].status}{"\n"}{end}')
             if [ "$podStatus" == "True" ]; then
-              kubectl -n $EKS_NS_APP rollout restart deploy spring-demo-deploy
+              kubectl -n $EKS_NS_APP rollout restart deploy $EKS_DEPLOY_APP
             else 
               kubectl apply -f app-k8s/
             fi
