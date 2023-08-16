@@ -82,6 +82,16 @@ phases:
             mkdir ~/.kube/
             aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
             chmod 0600 ~/.kube/config
+
+            # Change docker image in k8s deployment file 
+            echo "Set docker image in k8s deployment file"
+            NEW_SUFFIX=" $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG"
+            awk -v start="image:" -v new="$NEW_SUFFIX" '
+            $1 == start {
+             sub($2, new)
+            }
+            { print }
+             ' app-k8s/sonar-aws-javaApp.yaml > tmpfile && mv tmpfile app-k8s/sonar-aws-javaApp.yaml
             
             # Apply changes to our Application using kubectl
             echo "Apply changes to kube app"  
