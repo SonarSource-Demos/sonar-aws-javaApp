@@ -6,14 +6,15 @@ env:
   variables:
     SourceBranch: ""
     DestinationBranch: ""
+    PRKey: ""
     IMAGE_REPO_NAME: "app-container-repo"
     IMAGE_TAG: "Latest"
-    EKS_CLUSTER_NAME: "sonar-cluster"
+    EKS_CLUSTER_NAME: "eks-workshop"
     EKS_NS_APP: "sonar-aws-javaapp-ns"
     EKS_CODEBUILD_APP_SVC: "sonar-aws-javaapp-svc"
     EKS_DEPLOY_APP: "sonar-aws-javaapp-deploy"
-    SONAR_PROJECT: "java-spring-example"
-    PRKey: ""
+    SONAR_PROJECT: "spring-demo"
+    
   shell: bash    
 phases:
   install:
@@ -41,6 +42,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo Build executable
       - set -a
       - export CODEBUILD_SOURCE_VERSION="refs/heads/main"
       - SourceBranch=`echo $CODEBUILD_SOURCE_VERSION | cut -d '/' -f 3`
@@ -82,6 +84,16 @@ phases:
             mkdir ~/.kube/
             aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
             chmod 0600 ~/.kube/config
+
+            # Change docker image in k8s deployment file 
+            echo "Set docker image in k8s deployment file"
+            NEW_SUFFIX=" $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG"
+            awk -v start="image:" -v new="$NEW_SUFFIX" '
+            $1 == start {
+             sub($2, new)
+            }
+            { print }
+             ' app-k8s/sonar-aws-javaApp.yaml > tmpfile && mv tmpfile app-k8s/sonar-aws-javaApp.yaml
             
             # Apply changes to our Application using kubectl
             echo "Apply changes to kube app"  
@@ -106,6 +118,6 @@ phases:
          
 artifacts:
   files:
-    - target/spring-demo-0.0.1-SNAPSHOT.jar
+    - target/aws-sonar-demo-1.1.jar
     - app-k8s/*
   discard-paths: yes
