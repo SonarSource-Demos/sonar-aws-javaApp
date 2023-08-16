@@ -9,7 +9,7 @@ env:
     PRKey: ""
     IMAGE_REPO_NAME: "app-container-repo"
     IMAGE_TAG: "Latest"
-    EKS_CLUSTER_NAME: "eks-workshop"
+    EKS_CLUSTER_NAME: "sonar-cluster"
     EKS_NS_APP: "sonar-aws-javaapp-ns"
     EKS_CODEBUILD_APP_SVC: "sonar-aws-javaapp-svc"
     EKS_DEPLOY_APP: "sonar-aws-javaapp-deploy"
