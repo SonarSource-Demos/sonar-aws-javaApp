@@ -13,7 +13,7 @@ env:
     EKS_NS_APP: "sonar-aws-javaapp-ns"
     EKS_CODEBUILD_APP_SVC: "sonar-aws-javaapp-svc"
     EKS_DEPLOY_APP: "sonar-aws-javaapp-deploy"
-    SONAR_PROJECT: "spring-demo"
+    SONAR_PROJECT: "java-spring-example"
     
   shell: bash    
 phases:
